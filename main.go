@@ -13,8 +13,6 @@ import (
 	"tailscale.com/tsnet"
 )
 
-const nasMACAddress = `6C:BF:B5:02:55:08`
-
 func runCommand(name string, args ...string) error {
 	cmd := exec.Command(name, args...)
 	cmd.Stdin = os.Stdin
@@ -35,8 +33,8 @@ func powerOff() error {
 	return runCommand("systemctl", "poweroff")
 }
 
-func wakeOnLan() error {
-	return runCommand("wol", nasMACAddress)
+func wakeOnLan(macAddr string) error {
+	return runCommand("wol", macAddr)
 }
 
 func main() {
@@ -44,11 +42,16 @@ func main() {
 		flTSNetDir   = flag.String("tsnet-dir", "", "The directory where the tsnet state is stored")
 		flListenAddr = flag.String("listen-addr", ":4790", "The address to listen on")
 		flMode       = flag.String("mode", "sleeper", "Which mode to run in. 'sleeper' or 'waker'")
+		flMACAddress = flag.String("mac-address", "", "The MAC address of the device to wake")
 	)
 	flag.Parse()
 
 	if *flTSNetDir == "" {
 		log.Fatal("Please provide the directory for the tsnet library state")
+	}
+
+	if *flMode == "waker" && *flMACAddress == "" {
+		log.Fatal("Please provide the MAC address to wake")
 	}
 
 	// Prepare the TCP listener on the tailnet
@@ -94,7 +97,7 @@ func main() {
 		case "sleeper":
 			err = powerOff()
 		case "waker":
-			err = wakeOnLan()
+			err = wakeOnLan(*flMACAddress)
 		}
 
 		if err != nil {
