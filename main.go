@@ -8,6 +8,7 @@ import (
 	"net/http"
 	"os"
 	"os/exec"
+	"path/filepath"
 
 	"tailscale.com/tsnet"
 )
@@ -40,16 +41,22 @@ func wakeOnLan() error {
 
 func main() {
 	var (
+		flTSNetDir   = flag.String("tsnet-dir", "", "The directory where the tsnet state is stored")
 		flListenAddr = flag.String("listen-addr", ":4790", "The address to listen on")
 		flMode       = flag.String("mode", "sleeper", "Which mode to run in. 'sleeper' or 'waker'")
 	)
 	flag.Parse()
+
+	if *flTSNetDir == "" {
+		log.Fatal("Please provide the directory for the tsnet library state")
+	}
 
 	// Prepare the TCP listener on the tailnet
 
 	hostname := fmt.Sprintf("mynas-%s", *flMode)
 
 	tsserver := &tsnet.Server{
+		Dir:      filepath.Join(*flTSNetDir, hostname),
 		Hostname: hostname,
 	}
 	defer tsserver.Close()
