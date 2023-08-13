@@ -20,14 +20,14 @@ func runCommand(name string, args ...string) error {
 	cmd.Stdin = os.Stdin
 
 	output, err := cmd.CombinedOutput()
-	if err != nil {
-		return fmt.Errorf("unable to execute command, err: %w", err)
-	}
 
 	if len(output) > 0 {
 		log.Printf("command output: %s", string(output))
 	}
 
+	if err != nil {
+		return fmt.Errorf("unable to execute command, err: %w", err)
+	}
 	return nil
 }
 
