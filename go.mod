@@ -1,6 +1,8 @@
-module go.rischmann.fr/mynas
+module go.rischmann.fr/naspm
 
 go 1.21.0
+
+require tailscale.com v1.46.1
 
 require (
 	filippo.io/edwards25519 v1.0.0 // indirect
@@ -71,5 +73,4 @@ require (
 	gvisor.dev/gvisor v0.0.0-20230504175454-7b0a1988a28f // indirect
 	inet.af/peercred v0.0.0-20210906144145-0893ea02156a // indirect
 	nhooyr.io/websocket v1.8.7 // indirect
-	tailscale.com v1.46.1 // indirect
 )
