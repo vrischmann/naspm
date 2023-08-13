@@ -41,8 +41,8 @@ func main() {
 	var (
 		flTSNetDir   = flag.String("tsnet-dir", "", "The directory where the tsnet state is stored")
 		flListenAddr = flag.String("listen-addr", ":4790", "The address to listen on")
-		flMode       = flag.String("mode", "sleeper", "Which mode to run in. 'sleeper' or 'waker'")
-		flMACAddress = flag.String("mac-address", "", "The MAC address of the device to wake")
+		flMode       = flag.String("mode", os.Getenv("MODE"), "Which mode to run in. 'sleeper' or 'waker'")
+		flMACAddress = flag.String("mac-address", os.Getenv("MAC_ADDRESS"), "The MAC address of the device to wake")
 	)
 	flag.Parse()
 
