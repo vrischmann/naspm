@@ -85,6 +85,11 @@ func main() {
 			return
 		}
 
+		if req.Method != http.MethodPost || req.URL.Path != "/do" {
+			http.Error(w, "Bad Request", http.StatusBadRequest)
+			return
+		}
+
 		switch *flMode {
 		case "sleeper":
 			err = powerOff()
