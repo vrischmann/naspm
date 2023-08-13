@@ -15,6 +15,9 @@ The flow is then like this:
 * the remote device talks over the Tailnet to the router, it asks it to wake up the NAS
 * the router sends the WoL packet over the LAN
 
+The following diagram explains the flow: ![wol_naspm](https://github.com/vrischmann/naspm/assets/1916079/137d6031-0fda-4dcd-91e5-4801681f0900)
+
+
 This covers waking up the NAS but I also want an easy way to power if off because I don't want to have to SSH on it and run `poweroff` myself.
 
 ## What this is
