@@ -219,7 +219,7 @@ func (h *uiHandler) handleForm(w http.ResponseWriter, req *http.Request) {
 		Value: marshalUIStatus(status),
 	})
 
-	http.Redirect(w, req, "/", http.StatusSeeOther)
+	http.Redirect(w, req, h.basePath, http.StatusSeeOther)
 }
 
 func (h *uiHandler) doReq(ctx context.Context, hostname string) error {
