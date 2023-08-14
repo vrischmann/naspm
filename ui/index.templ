@@ -1,0 +1,26 @@
+package ui
+
+type Status struct {
+	Status string
+	Message string
+}
+
+templ Index(basePath string, status Status) {
+	<!DOCTYPE html>
+	<html>
+		<head>
+			<meta charset="utf-8"/>
+			<meta name="viewport" content="width=device-width, initial-scale=1"/>
+			<link rel="stylesheet" type="text/css" href={ basePath + "/assets/style.css" }/>
+			<title>My NAS</title>
+		</head>
+		<body>
+			<h1>My NAS</h1>
+			if status.Status != "" && status.Message != "" {
+				<h3 class={ status.Status }>{ status.Message }</h3>
+			}
+			<form method="POST" action={ basePath + "/do" }><button name="wakeup" id="wakeup" class="green">Wake up</button><button name="sleep" id="sleep" class="red">Sleep</button></form>
+		</body>
+	</html>
+}
+
