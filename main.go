@@ -172,6 +172,7 @@ func (h *uiHandler) renderUI(w http.ResponseWriter, req *http.Request) {
 
 	http.SetCookie(w, &http.Cookie{
 		Name:   uiCookieName,
+		Path:   h.basePath,
 		MaxAge: -1,
 	})
 
@@ -216,6 +217,7 @@ func (h *uiHandler) handleForm(w http.ResponseWriter, req *http.Request) {
 
 	http.SetCookie(w, &http.Cookie{
 		Name:  uiCookieName,
+		Path:  h.basePath,
 		Value: marshalUIStatus(status),
 	})
 
