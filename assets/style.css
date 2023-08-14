@@ -1,0 +1,53 @@
+body {
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+
+    display: grid;
+    grid-auto-flow: row;
+    row-gap: 4em;
+}
+
+form {
+    display: grid;
+    grid-auto-flow: row;
+    row-gap: 2em;
+
+    justify-items: center;
+}
+
+h1 {
+    text-align: center;
+}
+
+h3 {
+    text-align: center;
+    padding: 1em;
+}
+
+h3.success {
+    background-color: rgb(131, 204, 131);
+    border: green solid 2px;
+}
+
+h3.failure {
+    background-color: rgb(240, 159, 159);
+    border: red solid 2px;
+}
+
+button {
+    padding: 1em;
+    font-size: 23px;
+    width: 200px;
+}
+
+button:hover,
+button:active {
+    box-shadow: 5px 5px gray;
+}
+
+button.red {
+    background-color: rgb(240, 159, 159);
+}
+
+button.green {
+    background-color: rgb(131, 204, 131);
+}
