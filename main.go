@@ -253,24 +253,24 @@ func main() {
 		flTSNetDir             = flag.String("tsnet-dir", "", "The directory where the tsnet state is stored")
 		flListenAddr           = flag.String("listen-addr", ":4790", "The address to listen on")
 		flMode                 = flag.String("mode", os.Getenv("MODE"), "Which mode to run in. 'sleeper', 'waker' or 'ui'")
-		flMACAddress           = flag.String("mac-address", os.Getenv("MAC_ADDRESS"), "The MAC address of the device to wake")
-		flWakerHostname        = flag.String("waker-hostname", os.Getenv("WAKER_HOSTNAME"), "The hostname of the 'waker' device")
-		flSleeperHostname      = flag.String("sleeper-hostname", os.Getenv("SLEEPER_HOSTNAME"), "The hostname of the 'sleeper' device")
-		flBasePath             = flag.String("base-path", os.Getenv("BASE_PATH"), "The base path for the UI URLs")
+		flMACAddress           = flag.String("mac-address", os.Getenv("MAC_ADDRESS"), "The MAC address of the device to wake up. Mantadory if mode is 'waker'")
+		flWakerHostname        = flag.String("waker-hostname", os.Getenv("WAKER_HOSTNAME"), "The hostname of the 'waker' device. Mandatory if mode is 'ui'")
+		flSleeperHostname      = flag.String("sleeper-hostname", os.Getenv("SLEEPER_HOSTNAME"), "The hostname of the 'sleeper' device. Mandatory if mode is 'ui'")
+		flBasePath             = flag.String("base-path", os.Getenv("BASE_PATH"), "The base path for the UI URLs. Useful if the UI is behind a reverse proxy")
 		flAuthorizedLoginNames = flag.String("authorized-login-names", os.Getenv("AUTHORIZED_LOGIN_NAMES"), "A comma-separated list of login names that are authorized to access the service")
 	)
 	flag.Parse()
 
 	if *flTSNetDir == "" {
-		log.Fatal("Please provide the directory for the tsnet library state")
+		log.Fatal("Please provide the directory for the tsnet library state with --tsnet-dir. See --help")
 	}
 
 	if *flMode == "waker" && *flMACAddress == "" {
-		log.Fatal("Please provide the MAC address to wake")
+		log.Fatal("Please provide the MAC address to wake up with --mac-address. See --help")
 	}
 
 	if *flMode == "ui" && (*flWakerHostname == "" || *flSleeperHostname == "") {
-		log.Fatal("Please provide the waker and sleeper hostname")
+		log.Fatal("Please provide the waker and sleeper hostname with --waker-hostname and --sleeper-hostname. See --help")
 	}
 
 	authorizedLoginNames := strings.Split(*flAuthorizedLoginNames, ",")
