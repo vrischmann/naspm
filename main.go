@@ -13,9 +13,11 @@ import (
 	"os"
 	"os/exec"
 	"path/filepath"
+	"strings"
 	"time"
 
 	"github.com/vrischmann/hutil/v3"
+	"golang.org/x/exp/slices"
 	"tailscale.com/tsnet"
 
 	"go.rischmann.fr/naspm/assets"
@@ -248,13 +250,14 @@ func (h *uiHandler) doReq(ctx context.Context, hostname string) error {
 
 func main() {
 	var (
-		flTSNetDir        = flag.String("tsnet-dir", "", "The directory where the tsnet state is stored")
-		flListenAddr      = flag.String("listen-addr", ":4790", "The address to listen on")
-		flMode            = flag.String("mode", os.Getenv("MODE"), "Which mode to run in. 'sleeper', 'waker' or 'ui'")
-		flMACAddress      = flag.String("mac-address", os.Getenv("MAC_ADDRESS"), "The MAC address of the device to wake")
-		flWakerHostname   = flag.String("waker-hostname", os.Getenv("WAKER_HOSTNAME"), "The hostname of the 'waker' device")
-		flSleeperHostname = flag.String("sleeper-hostname", os.Getenv("SLEEPER_HOSTNAME"), "The hostname of the 'sleeper' device")
-		flBasePath        = flag.String("base-path", os.Getenv("BASE_PATH"), "The base path for the UI URLs")
+		flTSNetDir             = flag.String("tsnet-dir", "", "The directory where the tsnet state is stored")
+		flListenAddr           = flag.String("listen-addr", ":4790", "The address to listen on")
+		flMode                 = flag.String("mode", os.Getenv("MODE"), "Which mode to run in. 'sleeper', 'waker' or 'ui'")
+		flMACAddress           = flag.String("mac-address", os.Getenv("MAC_ADDRESS"), "The MAC address of the device to wake")
+		flWakerHostname        = flag.String("waker-hostname", os.Getenv("WAKER_HOSTNAME"), "The hostname of the 'waker' device")
+		flSleeperHostname      = flag.String("sleeper-hostname", os.Getenv("SLEEPER_HOSTNAME"), "The hostname of the 'sleeper' device")
+		flBasePath             = flag.String("base-path", os.Getenv("BASE_PATH"), "The base path for the UI URLs")
+		flAuthorizedLoginNames = flag.String("authorized-login-names", os.Getenv("AUTHORIZED_LOGIN_NAMES"), "A comma-separated list of login names that are authorized to access the service")
 	)
 	flag.Parse()
 
@@ -268,6 +271,11 @@ func main() {
 
 	if *flMode == "ui" && (*flWakerHostname == "" || *flSleeperHostname == "") {
 		log.Fatal("Please provide the waker and sleeper hostname")
+	}
+
+	authorizedLoginNames := strings.Split(*flAuthorizedLoginNames, ",")
+	if len(authorizedLoginNames) <= 0 {
+		log.Fatal("Please provde the authorized login names with with --authorized-login-names. See --help")
 	}
 
 	// Prepare the TCP listener on the tailnet
@@ -302,7 +310,7 @@ func main() {
 				return
 			}
 
-			if who.UserProfile.LoginName != "vrischmann@github" {
+			if slices.Contains(authorizedLoginNames, who.UserProfile.LoginName) {
 				http.Error(w, "Forbidden", http.StatusForbidden)
 				return
 			}
