@@ -319,6 +319,18 @@ func main() {
 		})
 	})
 
+	ms.Use(func(next http.Handler) http.Handler {
+		return http.HandlerFunc(func(w http.ResponseWriter, req *http.Request) {
+			if req.URL.Path == "/status" {
+				w.WriteHeader(http.StatusOK)
+				io.WriteString(w, "OK")
+				return
+			}
+
+			next.ServeHTTP(w, req)
+		})
+	})
+
 	var handler http.Handler
 	switch *flMode {
 	case "sleeper":
