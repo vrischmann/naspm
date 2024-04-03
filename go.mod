@@ -5,7 +5,7 @@ go 1.22.0
 toolchain go1.22.2
 
 require (
-	github.com/a-h/templ v0.2.315
+	github.com/a-h/templ v0.2.648
 	github.com/vrischmann/hutil/v3 v3.1.0
 	golang.org/x/exp v0.0.0-20240119083558-1b970713d09a
 	tailscale.com v1.62.1
