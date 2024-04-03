@@ -19,7 +19,7 @@ templ Index(basePath string, status Status) {
 			if status.Status != "" && status.Message != "" {
 				<h3 class={ status.Status }>{ status.Message }</h3>
 			}
-			<form method="POST" action={ basePath + "/do" }><button name="wakeup" id="wakeup" class="green">Wake up</button><button name="sleep" id="sleep" class="red">Sleep</button></form>
+			<form method="POST" action={ templ.SafeURL(basePath) + "/do" }><button name="wakeup" id="wakeup" class="green">Wake up</button><button name="sleep" id="sleep" class="red">Sleep</button></form>
 		</body>
 	</html>
 }
