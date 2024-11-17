@@ -2,9 +2,11 @@
 
 Dead simple "power management" for my NAS.
 
+*Note*: this is archived because I don't have a use for it anymore as my NAS is now always on.
+
 # Overview
 
-I would like to keep my NAS shut down when not needed, but since I use it remotely I can't always start it by pressing a physical button. 
+I would like to keep my NAS shut down when not needed, but since I use it remotely I can't always start it by pressing a physical button.
 
 Something already exists for this, it's called [Wake-on-LAN](https://en.wikipedia.org/wiki/Wake-on-LAN) and fortunately my NAS supports it. This only works when connected on the LAN and I regularly need my NAS when I'm outside the house, so we need to somehow have a device that is connected both to the LAN and the internet and ask _that_ device to send the WoL packet.
 
@@ -23,7 +25,7 @@ There are three modes in which it can work:
 * `waker` mode
 * `ui` mode
 
-One particularity of this program is that it uses the [tsnet](https://pkg.go.dev/tailscale.com/tsnet) package to create dedicated tailscale machines and then only exposes a HTTP server on the tailscale interface. 
+One particularity of this program is that it uses the [tsnet](https://pkg.go.dev/tailscale.com/tsnet) package to create dedicated tailscale machines and then only exposes a HTTP server on the tailscale interface.
 
 ## Sleeper mode
 
